@@ -1,10 +1,14 @@
+import colorama as clr
 from colorama import Fore, Style
 table = 6*[7*[-1]]
 
+clr.init()
+
 def show_table(table):
     print(Style.RESET_ALL)
-    for i in range(len(table)):
-        print(f" {i+1} ")
+    for i in range(len(table[0])):
+        print(f" {i+1} ", end = "")
+    print()
     for line in table:
         for pol in line:
             if pol == 0:
@@ -41,6 +45,19 @@ def control_table(table):
     for i in range(4-len(table), len(table[0])-4):
         diag = []
         for j in range(len(table)):
-            
+            if (i+j > 0) and (i+j < len(table[0])):
+            	diag.append(table[i+j][j])
+        win = control_line(diag)
+        if win: return(win)
+    #/ diagonals
+    for i in range(4, len(table[0])+len(table)-4):
+        diag = []
+        for j in range(len(table)):
+            if (i-j > 0) and (i-j < len(table[0])):
+            	diag.append(table[i-j][j])
+        win = control_line(diag)
+        if win: return(win)
+    #no win
+    return(None)
 
 show_table(table)
